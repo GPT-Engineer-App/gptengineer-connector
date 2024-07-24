@@ -33,8 +33,6 @@
     --ring: 0 59% 30%;
  
     --radius: 0.5rem;
-
-    --frame-background: 0 0% 8%; /* New variable for frame background */
   }
 }
  
@@ -58,8 +56,4 @@
 
 .rustic-text {
   @apply font-serif;
-}
-
-.frame-bg {
-  @apply bg-[hsl(var(--frame-background))];
 }

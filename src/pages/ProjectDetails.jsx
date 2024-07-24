@@ -49,7 +49,7 @@ const ProjectDetails = () => {
 
       <ResizablePanelGroup direction="horizontal" className="flex-grow rounded-lg rustic-border">
         <ResizablePanel defaultSize={75} minSize={30}>
-          <div className="p-6 h-full overflow-auto frame-bg">
+          <div className="p-6 h-full overflow-auto rustic-bg">
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4 text-primary">Project Overview</h2>
               <div className="bg-card p-4 rounded-lg rustic-border">
@@ -82,7 +82,7 @@ const ProjectDetails = () => {
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={25} minSize={20}>
-          <ChatBox className="h-full frame-bg" />
+          <ChatBox className="h-full" />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>

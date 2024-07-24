@@ -40,7 +40,7 @@ const Index = () => {
 
       <ResizablePanelGroup direction="horizontal" className="flex-grow rounded-lg rustic-border">
         <ResizablePanel defaultSize={75} minSize={30}>
-          <div className="p-6 h-full overflow-auto frame-bg">
+          <div className="p-6 h-full overflow-auto rustic-bg">
             <h2 className="text-2xl font-semibold mb-4 text-primary">Projects</h2>
             {isLoading ? (
               <p className="text-muted-foreground">Loading projects...</p>
@@ -65,7 +65,7 @@ const Index = () => {
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={25} minSize={20}>
-          <ChatBox className="h-full frame-bg" />
+          <ChatBox className="h-full" />
         </ResizablePanel>
       </ResizablePanelGroup>
 
