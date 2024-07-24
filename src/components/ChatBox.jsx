@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Paperclip, Edit2 } from "lucide-react";
+import { Send, Paperclip } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -138,7 +138,7 @@ const ChatBox = ({ className }) => {
                         className="ml-2"
                         onClick={() => handlePromptEdit(key)}
                       >
-                        <Edit2 className="h-4 w-4" />
+                        Edit
                       </Button>
                     </DialogTrigger>
                     <DialogContent>
