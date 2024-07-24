@@ -1,6 +1,6 @@
 import { Home, FolderOpen } from "lucide-react";
-import Index from "./pages/Index.jsx";
-import ProjectDetails from "./pages/ProjectDetails.jsx";
+import Index from "./pages/Index";
+import ProjectDetails from "./pages/ProjectDetails";
 
 export const navItems = [
   {
