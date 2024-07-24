@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Paperclip, Edit2 } from "lucide-react";
+import { Send, Paperclip } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -17,25 +17,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
 
 const ChatBox = ({ className }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [systemPrompt, setSystemPrompt] = useState("");
-  const [prompts, setPrompts] = useState({
-    prompt1: "This is prompt 1",
-    prompt2: "This is prompt 2",
-    prompt3: "This is prompt 3",
-  });
-  const [editingPrompt, setEditingPrompt] = useState("");
   const scrollAreaRef = useRef(null);
   const fileInputRef = useRef(null);
 
@@ -79,18 +65,6 @@ const ChatBox = ({ className }) => {
     };
   };
 
-  const handlePromptEdit = (promptKey) => {
-    setEditingPrompt(promptKey);
-  };
-
-  const handlePromptSave = (promptKey, newValue) => {
-    setPrompts((prevPrompts) => ({
-      ...prevPrompts,
-      [promptKey]: newValue,
-    }));
-    setEditingPrompt("");
-  };
-
   return (
     <div className={cn("flex flex-col bg-secondary rustic-border", className)}>
       <div className="p-4 border-b border-primary">
@@ -120,45 +94,17 @@ const ChatBox = ({ className }) => {
         ))}
       </ScrollArea>
       <div className="p-4 border-t border-primary">
-        <div className="flex gap-2 items-center mb-2">
-          <Select onValueChange={setSystemPrompt} value={systemPrompt}>
+        <div className="flex gap-2 items-center">
+          <Select onValueChange={setSystemPrompt}>
             <SelectTrigger className="w-[180px] bg-muted text-muted-foreground border-primary">
               <SelectValue placeholder="Select prompt" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">None</SelectItem>
-              {Object.entries(prompts).map(([key, value]) => (
-                <SelectItem key={key} value={value}>
-                  {value.substring(0, 20)}...
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="ml-2"
-                        onClick={() => handlePromptEdit(key)}
-                      >
-                        <Edit2 className="h-4 w-4" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Edit Prompt</DialogTitle>
-                      </DialogHeader>
-                      <Textarea
-                        defaultValue={value}
-                        className="min-h-[200px]"
-                        onChange={(e) => handlePromptSave(key, e.target.value)}
-                      />
-                      <Button onClick={() => setEditingPrompt("")}>Save</Button>
-                    </DialogContent>
-                  </Dialog>
-                </SelectItem>
-              ))}
+              <SelectItem value="prompt1">Prompt 1</SelectItem>
+              <SelectItem value="prompt2">Prompt 2</SelectItem>
+              <SelectItem value="prompt3">Prompt 3</SelectItem>
             </SelectContent>
           </Select>
-        </div>
-        <div className="flex gap-2 items-center">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
