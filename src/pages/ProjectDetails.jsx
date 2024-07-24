@@ -37,34 +37,34 @@ const ProjectDetails = () => {
     console.log("Uploading file:", file);
   };
 
-  if (isLoading) return <div>Loading project details...</div>;
-  if (error) return <div>Error loading project details: {error.message}</div>;
+  if (isLoading) return <div className="text-muted-foreground">Loading project details...</div>;
+  if (error) return <div className="text-destructive">Error loading project details: {error.message}</div>;
 
   return (
-    <div className="container mx-auto px-4 py-8 h-screen flex flex-col">
+    <div className="container mx-auto px-4 py-8 h-screen flex flex-col rustic-text">
       <header className="mb-8">
-        <h1 className="text-3xl font-bold">{project.name}</h1>
-        <p className="text-xl text-gray-600">{project.description}</p>
+        <h1 className="text-3xl font-bold text-primary">{project.name}</h1>
+        <p className="text-xl text-muted-foreground">{project.description}</p>
       </header>
 
-      <ResizablePanelGroup direction="horizontal" className="flex-grow rounded-lg border">
+      <ResizablePanelGroup direction="horizontal" className="flex-grow rounded-lg rustic-border">
         <ResizablePanel defaultSize={75} minSize={30}>
-          <div className="p-6 h-full overflow-auto">
+          <div className="p-6 h-full overflow-auto rustic-bg">
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">Project Overview</h2>
-              <div className="bg-secondary p-4 rounded-lg">
-                <h3 className="text-xl font-semibold mb-2">Files</h3>
-                <ul className="list-disc pl-5 mb-4">
+              <h2 className="text-2xl font-semibold mb-4 text-primary">Project Overview</h2>
+              <div className="bg-card p-4 rounded-lg rustic-border">
+                <h3 className="text-xl font-semibold mb-2 text-primary">Files</h3>
+                <ul className="list-disc pl-5 mb-4 text-muted-foreground">
                   {project.files.map((file, index) => (
                     <li key={index}>{file}</li>
                   ))}
                 </ul>
-                <h3 className="text-xl font-semibold mb-2">Commit History</h3>
+                <h3 className="text-xl font-semibold mb-2 text-primary">Commit History</h3>
                 <ul className="space-y-2">
                   {project.commits.map((commit) => (
-                    <li key={commit.id} className="bg-background p-2 rounded">
-                      <p className="font-semibold">{commit.message}</p>
-                      <p className="text-sm text-gray-600">{commit.date}</p>
+                    <li key={commit.id} className="bg-muted p-2 rounded rustic-border">
+                      <p className="font-semibold text-primary">{commit.message}</p>
+                      <p className="text-sm text-muted-foreground">{commit.date}</p>
                     </li>
                   ))}
                 </ul>
@@ -72,10 +72,10 @@ const ProjectDetails = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-primary">Upload File</h2>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Input type="file" onChange={handleFileChange} className="flex-grow" />
-                <Button onClick={handleUpload} disabled={!file}>Upload</Button>
+                <Input type="file" onChange={handleFileChange} className="flex-grow bg-muted text-muted-foreground border-primary" />
+                <Button onClick={handleUpload} disabled={!file} className="bg-primary text-primary-foreground hover:bg-primary/90">Upload</Button>
               </div>
             </section>
           </div>

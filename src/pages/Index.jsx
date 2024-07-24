@@ -32,20 +32,20 @@ const Index = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 h-screen flex flex-col">
+    <div className="container mx-auto px-4 py-8 h-screen flex flex-col rustic-text">
       <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-2">GPT Engineer Project Manager</h1>
-        <p className="text-xl text-gray-600">Manage your GPT Engineer projects seamlessly</p>
+        <h1 className="text-4xl font-bold mb-2 text-primary">GPT Engineer Project Manager</h1>
+        <p className="text-xl text-muted-foreground">Manage your GPT Engineer projects seamlessly</p>
       </header>
 
-      <ResizablePanelGroup direction="horizontal" className="flex-grow rounded-lg border">
+      <ResizablePanelGroup direction="horizontal" className="flex-grow rounded-lg rustic-border">
         <ResizablePanel defaultSize={75} minSize={30}>
-          <div className="p-6 h-full overflow-auto">
-            <h2 className="text-2xl font-semibold mb-4">Projects</h2>
+          <div className="p-6 h-full overflow-auto rustic-bg">
+            <h2 className="text-2xl font-semibold mb-4 text-primary">Projects</h2>
             {isLoading ? (
-              <p>Loading projects...</p>
+              <p className="text-muted-foreground">Loading projects...</p>
             ) : error ? (
-              <p>Error loading projects: {error.message}</p>
+              <p className="text-destructive">Error loading projects: {error.message}</p>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project) => (
@@ -55,10 +55,10 @@ const Index = () => {
             )}
 
             <section className="mt-8">
-              <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-primary">Upload File</h2>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Input type="file" onChange={handleFileChange} className="flex-grow" />
-                <Button onClick={handleUpload} disabled={!file}>Upload</Button>
+                <Input type="file" onChange={handleFileChange} className="flex-grow bg-muted text-muted-foreground border-primary" />
+                <Button onClick={handleUpload} disabled={!file} className="bg-primary text-primary-foreground hover:bg-primary/90">Upload</Button>
               </div>
             </section>
           </div>
@@ -69,7 +69,7 @@ const Index = () => {
         </ResizablePanel>
       </ResizablePanelGroup>
 
-      <footer className="mt-8 text-center text-gray-600">
+      <footer className="mt-8 text-center text-muted-foreground">
         <p>&copy; 2024 GPT Engineer Project Manager. All rights reserved.</p>
       </footer>
     </div>

@@ -66,9 +66,9 @@ const ChatBox = ({ className }) => {
   };
 
   return (
-    <div className={cn("flex flex-col bg-gray-900 text-white h-full", className)}>
-      <div className="p-4 border-b border-gray-700">
-        <h2 className="text-lg font-semibold">Chat</h2>
+    <div className={cn("flex flex-col bg-secondary rustic-border", className)}>
+      <div className="p-4 border-b border-primary">
+        <h2 className="text-lg font-semibold text-primary">Chat</h2>
       </div>
       <ScrollArea ref={scrollAreaRef} className="flex-grow p-4">
         {messages.map((message, index) => (
@@ -79,13 +79,13 @@ const ChatBox = ({ className }) => {
             }`}
           >
             {message.systemPrompt && (
-              <div className="text-xs text-gray-500 mb-1">{message.systemPrompt}</div>
+              <div className="text-xs text-muted-foreground mb-1">{message.systemPrompt}</div>
             )}
             <div
               className={`inline-block p-3 rounded-lg ${
                 message.sender === "user"
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-700 text-white"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground"
               }`}
             >
               {message.text}
@@ -93,10 +93,10 @@ const ChatBox = ({ className }) => {
           </div>
         ))}
       </ScrollArea>
-      <div className="p-4 border-t border-gray-700">
+      <div className="p-4 border-t border-primary">
         <div className="flex gap-2 items-center">
           <Select onValueChange={setSystemPrompt}>
-            <SelectTrigger className="w-[180px] bg-gray-800 text-white border-gray-700">
+            <SelectTrigger className="w-[180px] bg-muted text-muted-foreground border-primary">
               <SelectValue placeholder="Select prompt" />
             </SelectTrigger>
             <SelectContent>
@@ -110,11 +110,11 @@ const ChatBox = ({ className }) => {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your message..."
             onKeyPress={(e) => e.key === "Enter" && handleSend()}
-            className="flex-grow bg-gray-800 text-white border-gray-700"
+            className="flex-grow bg-muted text-muted-foreground border-primary"
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon" className="bg-gray-800 border-gray-700">
+              <Button variant="outline" size="icon" className="bg-muted border-primary">
                 <Paperclip className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -127,7 +127,7 @@ const ChatBox = ({ className }) => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button onClick={handleSend} size="icon" className="bg-blue-600 hover:bg-blue-700">
+          <Button onClick={handleSend} size="icon" className="bg-primary text-primary-foreground hover:bg-primary/90">
             <Send className="h-4 w-4" />
           </Button>
         </div>
