@@ -36,6 +36,7 @@ const ChatBox = ({ className }) => {
     prompt3: "This is prompt 3",
   });
   const [editingPrompt, setEditingPrompt] = useState("");
+  const [editedPromptContent, setEditedPromptContent] = useState("");
   const scrollAreaRef = useRef(null);
   const fileInputRef = useRef(null);
 
@@ -81,14 +82,18 @@ const ChatBox = ({ className }) => {
 
   const handlePromptEdit = (promptKey) => {
     setEditingPrompt(promptKey);
+    setEditedPromptContent(prompts[promptKey]);
   };
 
-  const handlePromptSave = (promptKey, newValue) => {
-    setPrompts((prevPrompts) => ({
-      ...prevPrompts,
-      [promptKey]: newValue,
-    }));
-    setEditingPrompt("");
+  const handlePromptSave = () => {
+    if (editingPrompt) {
+      setPrompts((prevPrompts) => ({
+        ...prevPrompts,
+        [editingPrompt]: editedPromptContent,
+      }));
+      setEditingPrompt("");
+      setEditedPromptContent("");
+    }
   };
 
   return (
@@ -136,7 +141,10 @@ const ChatBox = ({ className }) => {
                         variant="ghost"
                         size="sm"
                         className="ml-2"
-                        onClick={() => handlePromptEdit(key)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePromptEdit(key);
+                        }}
                       >
                         Edit
                       </Button>
@@ -146,11 +154,11 @@ const ChatBox = ({ className }) => {
                         <DialogTitle>Edit Prompt</DialogTitle>
                       </DialogHeader>
                       <Textarea
-                        defaultValue={value}
+                        value={editedPromptContent}
+                        onChange={(e) => setEditedPromptContent(e.target.value)}
                         className="min-h-[200px]"
-                        onChange={(e) => handlePromptSave(key, e.target.value)}
                       />
-                      <Button onClick={() => setEditingPrompt("")}>Save</Button>
+                      <Button onClick={handlePromptSave}>Save</Button>
                     </DialogContent>
                   </Dialog>
                 </SelectItem>
