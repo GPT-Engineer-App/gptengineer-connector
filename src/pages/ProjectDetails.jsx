@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ChatBox from "@/components/ChatBox";
 
 const fetchProjectDetails = async (id) => {
   // TODO: Replace with actual API call
   return {
     id,
     name: `Project ${id}`,
+    description: `This is the description for Project ${id}`,
     files: ["file1.txt", "file2.js", "file3.css"],
     commits: [
       { id: 1, message: "Initial commit", date: "2024-03-01" },
@@ -41,36 +43,42 @@ const ProjectDetails = () => {
     <div className="container mx-auto px-4 py-8">
       <header className="mb-8">
         <h1 className="text-3xl font-bold">{project.name}</h1>
+        <p className="text-xl text-gray-600">{project.description}</p>
       </header>
 
-      <main>
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Files</h2>
-          <ul className="list-disc pl-5">
-            {project.files.map((file, index) => (
-              <li key={index}>{file}</li>
-            ))}
-          </ul>
+      <main className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <section>
+          <h2 className="text-2xl font-semibold mb-4">Project Overview</h2>
+          <div className="bg-secondary p-4 rounded-lg">
+            <h3 className="text-xl font-semibold mb-2">Files</h3>
+            <ul className="list-disc pl-5 mb-4">
+              {project.files.map((file, index) => (
+                <li key={index}>{file}</li>
+              ))}
+            </ul>
+            <h3 className="text-xl font-semibold mb-2">Commit History</h3>
+            <ul className="space-y-2">
+              {project.commits.map((commit) => (
+                <li key={commit.id} className="bg-background p-2 rounded">
+                  <p className="font-semibold">{commit.message}</p>
+                  <p className="text-sm text-gray-600">{commit.date}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
 
-        <section className="mb-8">
+        <section>
+          <h2 className="text-2xl font-semibold mb-4">Project Chat</h2>
+          <ChatBox />
+        </section>
+
+        <section className="md:col-span-2">
           <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
           <div className="flex gap-4">
             <Input type="file" onChange={handleFileChange} />
             <Button onClick={handleUpload} disabled={!file}>Upload</Button>
           </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Commit History</h2>
-          <ul className="space-y-2">
-            {project.commits.map((commit) => (
-              <li key={commit.id} className="bg-gray-100 p-4 rounded">
-                <p className="font-semibold">{commit.message}</p>
-                <p className="text-sm text-gray-600">{commit.date}</p>
-              </li>
-            ))}
-          </ul>
         </section>
       </main>
     </div>

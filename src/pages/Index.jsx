@@ -2,14 +2,15 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import ChatBox from "@/components/ChatBox";
+import ProjectCard from "@/components/ProjectCard";
 
 const fetchProjects = async () => {
   // TODO: Replace with actual API call
   return [
-    { id: 1, name: "Project 1" },
-    { id: 2, name: "Project 2" },
-    { id: 3, name: "Project 3" },
+    { id: 1, name: "Project 1", description: "This is project 1" },
+    { id: 2, name: "Project 2", description: "This is project 2" },
+    { id: 3, name: "Project 3", description: "This is project 3" },
   ];
 };
 
@@ -36,15 +37,7 @@ const Index = () => {
         <p className="text-xl text-gray-600">Manage your GPT Engineer projects seamlessly</p>
       </header>
 
-      <main>
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
-          <div className="flex gap-4">
-            <Input type="file" onChange={handleFileChange} />
-            <Button onClick={handleUpload} disabled={!file}>Upload</Button>
-          </div>
-        </section>
-
+      <main className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <section>
           <h2 className="text-2xl font-semibold mb-4">Projects</h2>
           {isLoading ? (
@@ -52,17 +45,25 @@ const Index = () => {
           ) : error ? (
             <p>Error loading projects: {error.message}</p>
           ) : (
-            <ul className="space-y-2">
+            <div className="grid gap-4">
               {projects.map((project) => (
-                <li key={project.id} className="flex items-center justify-between bg-gray-100 p-4 rounded">
-                  <span>{project.name}</span>
-                  <Link to={`/project/${project.id}`}>
-                    <Button variant="outline">View</Button>
-                  </Link>
-                </li>
+                <ProjectCard key={project.id} project={project} />
               ))}
-            </ul>
+            </div>
           )}
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-semibold mb-4">Chat</h2>
+          <ChatBox />
+        </section>
+
+        <section className="md:col-span-2">
+          <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
+          <div className="flex gap-4">
+            <Input type="file" onChange={handleFileChange} />
+            <Button onClick={handleUpload} disabled={!file}>Upload</Button>
+          </div>
         </section>
       </main>
 
