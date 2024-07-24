@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import ChatBox from "@/components/ChatBox";
 import ProjectCard from "@/components/ProjectCard";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 
 const fetchProjects = async () => {
   // TODO: Replace with actual API call
@@ -37,34 +38,36 @@ const Index = () => {
         <p className="text-xl text-gray-600">Manage your GPT Engineer projects seamlessly</p>
       </header>
 
-      <main className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <section className="lg:col-span-2">
-          <h2 className="text-2xl font-semibold mb-4">Projects</h2>
-          {isLoading ? (
-            <p>Loading projects...</p>
-          ) : error ? (
-            <p>Error loading projects: {error.message}</p>
-          ) : (
-            <div className="grid gap-4">
-              {projects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
-            </div>
-          )}
-        </section>
+      <ResizablePanelGroup direction="horizontal" className="min-h-[600px] rounded-lg border">
+        <ResizablePanel defaultSize={75}>
+          <div className="p-6">
+            <h2 className="text-2xl font-semibold mb-4">Projects</h2>
+            {isLoading ? (
+              <p>Loading projects...</p>
+            ) : error ? (
+              <p>Error loading projects: {error.message}</p>
+            ) : (
+              <div className="grid gap-4">
+                {projects.map((project) => (
+                  <ProjectCard key={project.id} project={project} />
+                ))}
+              </div>
+            )}
 
-        <section className="lg:col-span-1">
-          <ChatBox />
-        </section>
-
-        <section className="lg:col-span-3">
-          <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
-          <div className="flex gap-4">
-            <Input type="file" onChange={handleFileChange} />
-            <Button onClick={handleUpload} disabled={!file}>Upload</Button>
+            <section className="mt-8">
+              <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
+              <div className="flex gap-4">
+                <Input type="file" onChange={handleFileChange} />
+                <Button onClick={handleUpload} disabled={!file}>Upload</Button>
+              </div>
+            </section>
           </div>
-        </section>
-      </main>
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel defaultSize={25}>
+          <ChatBox className="h-full" />
+        </ResizablePanel>
+      </ResizablePanelGroup>
 
       <footer className="mt-8 text-center text-gray-600">
         <p>&copy; 2024 GPT Engineer Project Manager. All rights reserved.</p>

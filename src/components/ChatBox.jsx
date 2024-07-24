@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const ChatBox = () => {
+const ChatBox = ({ className }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const scrollAreaRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const handleSend = () => {
     if (input.trim()) {
@@ -23,11 +31,11 @@ const ChatBox = () => {
   };
 
   return (
-    <div className="flex flex-col h-[600px] border rounded-lg bg-background shadow-lg">
-      <div className="p-4 border-b">
+    <div className={cn("flex flex-col bg-gray-900 text-white", className)}>
+      <div className="p-4 border-b border-gray-700">
         <h2 className="text-lg font-semibold">Chat</h2>
       </div>
-      <ScrollArea className="flex-grow p-4">
+      <ScrollArea ref={scrollAreaRef} className="flex-grow p-4">
         {messages.map((message, index) => (
           <div
             key={index}
@@ -38,8 +46,8 @@ const ChatBox = () => {
             <div
               className={`inline-block p-3 rounded-lg ${
                 message.sender === "user"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-secondary-foreground"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-700 text-white"
               }`}
             >
               {message.text}
@@ -47,16 +55,16 @@ const ChatBox = () => {
           </div>
         ))}
       </ScrollArea>
-      <div className="p-4 border-t">
+      <div className="p-4 border-t border-gray-700">
         <div className="flex gap-2">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your message..."
             onKeyPress={(e) => e.key === "Enter" && handleSend()}
-            className="flex-grow"
+            className="flex-grow bg-gray-800 text-white border-gray-700"
           />
-          <Button onClick={handleSend} size="icon">
+          <Button onClick={handleSend} size="icon" className="bg-blue-600 hover:bg-blue-700">
             <Send className="h-4 w-4" />
           </Button>
         </div>
