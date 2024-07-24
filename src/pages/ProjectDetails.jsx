@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ChatBox from "@/components/ChatBox";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 
 const fetchProjectDetails = async (id) => {
   // TODO: Replace with actual API call
@@ -40,47 +41,50 @@ const ProjectDetails = () => {
   if (error) return <div>Error loading project details: {error.message}</div>;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 h-screen flex flex-col">
       <header className="mb-8">
         <h1 className="text-3xl font-bold">{project.name}</h1>
         <p className="text-xl text-gray-600">{project.description}</p>
       </header>
 
-      <main className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Project Overview</h2>
-          <div className="bg-secondary p-4 rounded-lg">
-            <h3 className="text-xl font-semibold mb-2">Files</h3>
-            <ul className="list-disc pl-5 mb-4">
-              {project.files.map((file, index) => (
-                <li key={index}>{file}</li>
-              ))}
-            </ul>
-            <h3 className="text-xl font-semibold mb-2">Commit History</h3>
-            <ul className="space-y-2">
-              {project.commits.map((commit) => (
-                <li key={commit.id} className="bg-background p-2 rounded">
-                  <p className="font-semibold">{commit.message}</p>
-                  <p className="text-sm text-gray-600">{commit.date}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+      <ResizablePanelGroup direction="horizontal" className="flex-grow rounded-lg border">
+        <ResizablePanel defaultSize={75} minSize={30}>
+          <div className="p-6 h-full overflow-auto">
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">Project Overview</h2>
+              <div className="bg-secondary p-4 rounded-lg">
+                <h3 className="text-xl font-semibold mb-2">Files</h3>
+                <ul className="list-disc pl-5 mb-4">
+                  {project.files.map((file, index) => (
+                    <li key={index}>{file}</li>
+                  ))}
+                </ul>
+                <h3 className="text-xl font-semibold mb-2">Commit History</h3>
+                <ul className="space-y-2">
+                  {project.commits.map((commit) => (
+                    <li key={commit.id} className="bg-background p-2 rounded">
+                      <p className="font-semibold">{commit.message}</p>
+                      <p className="text-sm text-gray-600">{commit.date}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
 
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Project Chat</h2>
-          <ChatBox />
-        </section>
-
-        <section className="md:col-span-2">
-          <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
-          <div className="flex gap-4">
-            <Input type="file" onChange={handleFileChange} />
-            <Button onClick={handleUpload} disabled={!file}>Upload</Button>
+            <section>
+              <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Input type="file" onChange={handleFileChange} className="flex-grow" />
+                <Button onClick={handleUpload} disabled={!file}>Upload</Button>
+              </div>
+            </section>
           </div>
-        </section>
-      </main>
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel defaultSize={25} minSize={20}>
+          <ChatBox className="h-full" />
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
@@ -32,22 +32,22 @@ const Index = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 h-screen flex flex-col">
       <header className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-2">GPT Engineer Project Manager</h1>
         <p className="text-xl text-gray-600">Manage your GPT Engineer projects seamlessly</p>
       </header>
 
-      <ResizablePanelGroup direction="horizontal" className="min-h-[600px] rounded-lg border">
-        <ResizablePanel defaultSize={75}>
-          <div className="p-6">
+      <ResizablePanelGroup direction="horizontal" className="flex-grow rounded-lg border">
+        <ResizablePanel defaultSize={75} minSize={30}>
+          <div className="p-6 h-full overflow-auto">
             <h2 className="text-2xl font-semibold mb-4">Projects</h2>
             {isLoading ? (
               <p>Loading projects...</p>
             ) : error ? (
               <p>Error loading projects: {error.message}</p>
             ) : (
-              <div className="grid gap-4">
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project) => (
                   <ProjectCard key={project.id} project={project} />
                 ))}
@@ -56,15 +56,15 @@ const Index = () => {
 
             <section className="mt-8">
               <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
-              <div className="flex gap-4">
-                <Input type="file" onChange={handleFileChange} />
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Input type="file" onChange={handleFileChange} className="flex-grow" />
                 <Button onClick={handleUpload} disabled={!file}>Upload</Button>
               </div>
             </section>
           </div>
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel defaultSize={25}>
+        <ResizablePanel defaultSize={25} minSize={20}>
           <ChatBox className="h-full" />
         </ResizablePanel>
       </ResizablePanelGroup>

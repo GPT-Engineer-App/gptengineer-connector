@@ -31,7 +31,7 @@ const ChatBox = ({ className }) => {
   };
 
   return (
-    <div className={cn("flex flex-col bg-gray-900 text-white", className)}>
+    <div className={cn("flex flex-col bg-gray-900 text-white h-full", className)}>
       <div className="p-4 border-b border-gray-700">
         <h2 className="text-lg font-semibold">Chat</h2>
       </div>
