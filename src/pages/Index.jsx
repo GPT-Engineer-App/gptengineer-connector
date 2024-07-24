@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Loader2 } from "lucide-react";
 
 const fetchProjects = async () => {
   // TODO: Replace with actual API call
@@ -36,34 +39,47 @@ const Index = () => {
         <p className="text-xl text-gray-600">Manage your GPT Engineer projects seamlessly</p>
       </header>
 
-      <main>
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
-          <div className="flex gap-4">
-            <Input type="file" onChange={handleFileChange} />
-            <Button onClick={handleUpload} disabled={!file}>Upload</Button>
-          </div>
-        </section>
+      <main className="space-y-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>Upload File</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4">
+              <Input type="file" onChange={handleFileChange} />
+              <Button onClick={handleUpload} disabled={!file}>Upload</Button>
+            </div>
+          </CardContent>
+        </Card>
 
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Projects</h2>
-          {isLoading ? (
-            <p>Loading projects...</p>
-          ) : error ? (
-            <p>Error loading projects: {error.message}</p>
-          ) : (
-            <ul className="space-y-2">
-              {projects.map((project) => (
-                <li key={project.id} className="flex items-center justify-between bg-gray-100 p-4 rounded">
-                  <span>{project.name}</span>
-                  <Link to={`/project/${project.id}`}>
-                    <Button variant="outline">View</Button>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
+        <Card>
+          <CardHeader>
+            <CardTitle>Projects</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <div className="flex justify-center">
+                <Loader2 className="h-6 w-6 animate-spin" />
+              </div>
+            ) : error ? (
+              <Alert variant="destructive">
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>Failed to load projects: {error.message}</AlertDescription>
+              </Alert>
+            ) : (
+              <ul className="space-y-2">
+                {projects.map((project) => (
+                  <li key={project.id} className="flex items-center justify-between bg-gray-100 p-4 rounded">
+                    <span>{project.name}</span>
+                    <Link to={`/project/${project.id}`}>
+                      <Button variant="outline">View</Button>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
       </main>
 
       <footer className="mt-8 text-center text-gray-600">

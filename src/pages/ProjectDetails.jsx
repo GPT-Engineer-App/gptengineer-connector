@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Loader2 } from "lucide-react";
 
 const fetchProjectDetails = async (id) => {
   // TODO: Replace with actual API call
@@ -34,8 +37,8 @@ const ProjectDetails = () => {
     console.log("Uploading file:", file);
   };
 
-  if (isLoading) return <div>Loading project details...</div>;
-  if (error) return <div>Error loading project details: {error.message}</div>;
+  if (isLoading) return <div className="flex justify-center"><Loader2 className="h-6 w-6 animate-spin" /></div>;
+  if (error) return <Alert variant="destructive"><AlertTitle>Error</AlertTitle><AlertDescription>Failed to load project details: {error.message}</AlertDescription></Alert>;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -43,35 +46,47 @@ const ProjectDetails = () => {
         <h1 className="text-3xl font-bold">{project.name}</h1>
       </header>
 
-      <main>
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Files</h2>
-          <ul className="list-disc pl-5">
-            {project.files.map((file, index) => (
-              <li key={index}>{file}</li>
-            ))}
-          </ul>
-        </section>
+      <main className="space-y-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>Files</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="list-disc pl-5">
+              {project.files.map((file, index) => (
+                <li key={index}>{file}</li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
 
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
-          <div className="flex gap-4">
-            <Input type="file" onChange={handleFileChange} />
-            <Button onClick={handleUpload} disabled={!file}>Upload</Button>
-          </div>
-        </section>
+        <Card>
+          <CardHeader>
+            <CardTitle>Upload File</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4">
+              <Input type="file" onChange={handleFileChange} />
+              <Button onClick={handleUpload} disabled={!file}>Upload</Button>
+            </div>
+          </CardContent>
+        </Card>
 
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Commit History</h2>
-          <ul className="space-y-2">
-            {project.commits.map((commit) => (
-              <li key={commit.id} className="bg-gray-100 p-4 rounded">
-                <p className="font-semibold">{commit.message}</p>
-                <p className="text-sm text-gray-600">{commit.date}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <Card>
+          <CardHeader>
+            <CardTitle>Commit History</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2">
+              {project.commits.map((commit) => (
+                <li key={commit.id} className="bg-gray-100 p-4 rounded">
+                  <p className="font-semibold">{commit.message}</p>
+                  <p className="text-sm text-gray-600">{commit.date}</p>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
       </main>
     </div>
   );
