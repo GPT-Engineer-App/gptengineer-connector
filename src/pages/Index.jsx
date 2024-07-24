@@ -37,8 +37,8 @@ const Index = () => {
         <p className="text-xl text-gray-600">Manage your GPT Engineer projects seamlessly</p>
       </header>
 
-      <main className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <section>
+      <main className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <section className="lg:col-span-2">
           <h2 className="text-2xl font-semibold mb-4">Projects</h2>
           {isLoading ? (
             <p>Loading projects...</p>
@@ -53,12 +53,11 @@ const Index = () => {
           )}
         </section>
 
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Chat</h2>
+        <section className="lg:col-span-1">
           <ChatBox />
         </section>
 
-        <section className="md:col-span-2">
+        <section className="lg:col-span-3">
           <h2 className="text-2xl font-semibold mb-4">Upload File</h2>
           <div className="flex gap-4">
             <Input type="file" onChange={handleFileChange} />
